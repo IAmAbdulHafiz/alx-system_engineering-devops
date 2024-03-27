@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # apache 2
 
-echo "Hello Holberton" > /var/www/html/index.html
-service apache2 restart
+sudo service apache2 restart
+sudo echo "Hello Holberton" > /var/www/html/index.html
