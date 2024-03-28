@@ -1,5 +1,3 @@
 #!/usr/bin/env bash
-# apache 2
-
-sudo service apache2 restart
-sudo echo "Hello Holberton" > /var/www/html/index.html
+# connecting to the container so that curling port 80 return a page that contains Hello Holberton
+sudo service apache2 start
