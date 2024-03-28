@@ -1,3 +1,24 @@
 #!/usr/bin/env bash
-# Script that turns on an Apache Server
-service apache2 start
+# Step 1: Start the Docker container with Apache installed
+docker run -p 8080:80 -d -it holbertonschool/265-0
+
+# Step 2: Connect to the container
+docker exec -it CONTAINER_ID /bin/bash
+
+# Step 3: Check Apache status to ensure it's running
+service apache2 status
+
+# Step 4: Check Apache configuration files
+cat /etc/apache2/sites-available/000-default.conf
+
+# Step 5: Check the root directory configuration
+cat /etc/apache2/apache2.conf | grep DocumentRoot
+
+# Step 6: Ensure the root directory exists and contains the desired page
+ls -l /var/www/html/
+
+# Step 7: If necessary, create or modify the index.html file in the root directory
+echo "Hello Holberton" > /var/www/html/index.html
+
+# Step 8: Restart Apache service
+service apache2 restart
