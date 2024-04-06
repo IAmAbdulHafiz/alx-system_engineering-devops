@@ -36,13 +36,22 @@ defaults
 
 frontend http_front
    bind *:80
+   mode http
+   default_back web-servers
+
+frontend http_front
    bind *:443 ssl crt /etc/letsencrypt/live/www.iamabdulhafiz.tech/iamabdulhafiz.tech.pem
    reqadd X-Forwarded-Proto:\ https
+   acl letsencrypt-acl path_beg /.well-known/acme-challenge/
+   use_backend letsencrypt-backend if letsencrypt-acl
    stats uri /haproxy?stats
    default_backend web-servers
 
 backend web-servers
+    redirect scheme https code 301 if !{ ssl_fc }
     balance roundrobin
-    redirect scheme https if !{ ssl_fc }
-    server 468667-web-01 52.87.153.247:80
-    server 468667-web-02 100.25.159.23:80
+    server 468667-web-01 52.87.153.247:80 check
+    server 468667-web-02 100.25.159.23:80 check
+
+backend letsencrypt-backend
+   server letsencrypt 127.0.0.1:54321
